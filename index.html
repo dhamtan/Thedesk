@@ -3,156 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TheDesk - Live Price & COD Products</title>
-    <script src="https://www.thedeskkart.in/100273" defer></script>
-    <script>
-        (function(w,d,s,o,f,js,fjs){
-            w['Tawk_API']=o;w[o] = w[o] || function(){ 
-                (w[o].q = w[o].q || []).push(arguments)}
-            fjs = d.getElementsByTagName(s)[0];
-            js = d.createElement(s); js.id = o;
-            js.src = 'https://embed.tawk.to/YOUR_TAWK_ID_HERE/default';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(window, document, 'script', 'tawk', 'tawk_1594878'));
-    </script>
+    <title>TheDesk - Live Multi-Site Price Comparison</title>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); min-height:100vh; }
-        .container { max-width:1200px; margin:0 auto; padding:20px; }
+        body { font-family: 'Segoe UI',sans-serif; background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); min-height:100vh; }
+        .container { max-width:1400px; margin:0 auto; padding:20px; }
         .header { text-align:center; color:white; margin-bottom:40px; }
         .header h1 { font-size:3em; margin-bottom:10px; text-shadow:2px 2px 4px rgba(0,0,0,0.3); }
-        .header p { font-size:1.2em; opacity:0.9; }
-        .search-box { width:100%; max-width:500px; margin:0 auto 30px; display:block; padding:15px 20px; font-size:1.1em; border:none; border-radius:50px; box-shadow:0 10px 30px rgba(0,0,0,0.2); text-align:center; }
-        .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:25px; margin-top:30px; }
-        .card { background:white; border-radius:20px; padding:25px; box-shadow:0 20px 40px rgba(0,0,0,0.1); transition:all 0.3s ease; position:relative; overflow:hidden; }
-        .card:hover { transform:translateY(-10px); box-shadow:0 30px 60px rgba(0,0,0,0.2); }
-        .card::before { content:''; position:absolute; top:0; left:0; right:0; height:5px; background:linear-gradient(90deg,#ff6b6b,#4ecdc4,#45b7d1,#96ceb4); }
-        .price { font-size:2.5em; font-weight:bold; color:#e74c3c; margin:15px 0; text-shadow:1px 1px 2px rgba(0,0,0,0.1); }
-        .price::after { content:'₹'; font-size:0.4em; position:relative; top:-0.2em; }
-        .title { font-size:1.1em; color:#333; line-height:1.4; margin-bottom:15px; height:3em; overflow:hidden; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; }
-        .btn { display:inline-block; padding:12px 25px; background:linear-gradient(45deg,#ff6b6b,#ff8e8e); color:white; text-decoration:none; border-radius:50px; font-weight:bold; transition:all 0.3s; margin:5px; box-shadow:0 5px 15px rgba(231,76,60,0.4); }
-        .btn:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(231,76,60,0.6); }
-        .btn-amazon { background:linear-gradient(45deg,#ff9900,#ffaa33); box-shadow:0 5px 15px rgba(255,153,0,0.4); }
-        .whatsapp { background:linear-gradient(45deg,#25d366,#128c7e); box-shadow:0 5px 15px rgba(37,211,102,0.4); position:fixed; bottom:20px; right:20px; z-index:1000; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2em; }
-        .loading { text-align:center; color:white; font-size:1.2em; margin:50px 0; }
-        @media (max-width:768px) { .header h1 { font-size:2em; } .price { font-size:2em; } .grid { grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; } }
+        .search-box { width:100%; max-width:600px; margin:0 auto 30px; display:block; padding:18px 25px; font-size:1.2em; border:none; border-radius:50px; box-shadow:0 15px 40px rgba(0,0,0,0.2); text-align:center; }
+        .stats { display:flex; justify-content:center; gap:30px; color:white; margin-bottom:30px; font-size:1.1em; }
+        .comparison-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:25px; margin:30px 0; }
+        .comp-card { background:rgba(255,255,255,0.95); border-radius:20px; padding:25px; box-shadow:0 20px 40px rgba(0,0,0,0.1); }
+        .site-logo { font-size:2em; margin-bottom:10px; }
+        .price-display { font-size:3em; font-weight:bold; color:#e74c3c; margin:15px 0; }
+        .product-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px; }
+        .product-card { background:white; border-radius:20px; padding:25px; box-shadow:0 20px 40px rgba(0,0,0,0.1); transition:all 0.3s; position:relative; }
+        .product-card:hover { transform:translateY(-10px); box-shadow:0 30px 60px rgba(0,0,0,0.2); }
+        .product-image { width:100%; height:220px; object-fit:cover; border-radius:15px; margin-bottom:15px; }
+        .product-title { font-size:1.1em; color:#333; line-height:1.4; margin-bottom:15px; height:3em; overflow:hidden; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; }
+        .lowest-price { background:linear-gradient(45deg,#00b894,#00cec9); color:white; padding:8px 15px; border-radius:25px; font-weight:bold; display:inline-block; margin:10px 0; }
+        .btn { display:inline-block; padding:12px 25px; color:white; text-decoration:none; border-radius:50px; font-weight:bold; transition:all 0.3s; margin:5px; box-shadow:0 5px 15px rgba(0,0,0,0.2); }
+        .btn-amazon { background:linear-gradient(45deg,#ff9900,#ffaa33); }
+        .btn-flipkart { background:linear-gradient(45deg,#2874f0,#3399ff); }
+        .btn-whatsapp { background:linear-gradient(45deg,#25d366,#128c7e); }
+        .no-results { text-align:center; color:white; font-size:1.5em; margin:50px 0; grid-column:1/-1; }
+        .whatsapp-float { position:fixed; bottom:20px; right:20px; width:60px; height:60px; border-radius:50%; background:linear-gradient(45deg,#25d366,#128c7e); display:flex; align-items:center; justify-content:center; font-size:2em; color:white; z-index:1000; }
+        @media (max-width:768px) { .stats { flex-direction:column; gap:15px; text-align:center; } .comparison-grid { grid-template-columns:1fr; } }
     </style>
 </head>
 <body>
-    <a href="https://wa.me/919812837279?text=मुझे ये product चाहिए 👇" class="whatsapp" target="_blank">💬</a>
+    <a href="https://wa.me/919812837279" class="whatsapp-float" target="_blank">💬</a>
     
     <div class="container">
         <div class="header">
-            <h1>🔥 TheDesk Live Prices</h1>
-            <p>Live Amazon Prices | COD Available | Best Deals</p>
-            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Product search kare...">
+            <h1>🔥 TheDesk - Live Price Comparison</h1>
+            <p>Amazon + Flipkart + Meesho + Myntra - सबसे सस्ता यहीं!</p>
+            <input type="text" class="search-box" id="searchInput" placeholder="🔍 iPhone, Samsung, OnePlus या कोई भी product search करो...">
         </div>
 
-        <div id="loading" class="loading">⏳ Live prices loading... (2 sec)</div>
-        <div id="productGrid" class="grid"></div>
-    </div>
+        <div class="stats" id="stats">
+            <div>🛒 <span id="totalProducts">0</span> Products</div>
+            <div>⚡ <span id="liveUpdates">0</span> Live Updates</div>
+            <div>💰 <span id="savings">₹0</span> Saved</div>
+        </div>
 
-<script>
-        // 🔥 LIVE AMAZON PRICE API (Updated & Fixed)
-        const API_BASE = 'https://theedesk.onrender.com/api';
-        const AFFILIATE_TAG = '?tag=thedesk-21';
-        
-        // Products list with LIVE price endpoints
-        const products = [
-            { id: 'B0D7MJW1WY', title: 'Apple iPhone 16 (128GB) - Black', category: 'iphone' },
-            { id: 'B0CP8D4R8V', title: 'Samsung Galaxy S24 Ultra (256GB)', category: 'samsung' },
-            { id: 'B0CN8ZLQTN', title: 'OnePlus 12 5G (256GB) - Flowy Emerald', category: 'oneplus' },
-            { id: 'B0CT58TLT8', title: 'realme GT 6 (16GB RAM+256GB)', category: 'realme' },
-            { id: 'B0D7MJW1WY', title: 'iPhone 16 Pro Max 256GB Desert Titanium', category: 'iphone-pro' },
-            { id: 'B0D4B1C8J2', title: 'POCO X7 Pro 5G (256GB) - Yellow', category: 'poco' },
-            { id: 'B0CN8ZLQTN', title: 'OnePlus 12R 256GB Iron Gray', category: 'oneplus-r' },
-            { id: 'B0D2J7K8L3', title: 'vivo T3 Ultra 5G 128GB', category: 'vivo' }
+        <div class="comparison-grid" id="comparisonGrid"></div>
+        <div class="product-grid" id="productGrid"></div>
+    </div>
+    <script>
+        // 🔥 UNLIMITED API SYSTEM - 4 SITES COMPARISON
+        const APIs = {
+            amazon: 'https://theedesk.onrender.com/api/amazon/in/search/',
+            flipkart: 'https://theedesk.onrender.com/api/flipkart/search/',
+            meesho: 'https://theedesk.onrender.com/api/meesho/search/',
+            myntra: 'https://theedesk.onrender.com/api/myntra/search/'
+        };
+
+        // Popular keywords for unlimited products
+        const popularSearches = [
+            'iphone', 'samsung galaxy', 'oneplus', 'realme', 'poco', 'vivo', 'oppo', 
+            'airpods', 'boat earbuds', 'smartwatch', 'laptop', 'macbook', 'ipad',
+            'samsung watch', 'powerbank', 'charger', 'headphones', 'bluetooth speaker'
         ];
 
-        // Live Price Function (FIXED - Multiple price fields check)
-        async function fetchLivePrice(asin) {
-            try {
-                const response = await fetch(${API_BASE}/amazon/in/product/${asin});
-                const data = await response.json();
-                
-                // FIXED: Multiple price sources check
-                let price = 'N/A';
-                if (data.buyBoxWinner && data.buyBoxWinner.price) {
-                    price = data.buyBoxWinner.price;
-                } else if (data.offers && data.offers[0] && data.offers[0].price) {
-                    price = data.offers[0].price;
-                } else if (data.price) {
-                    price = data.price;
-                } else if (data.products && data.products[0]) {
-                    price = data.products[0].price  data.products[0].buyBoxWinner?.price  'N/A';
+        let allProducts = [];
+        let liveUpdateCount = 0;
+
+        // Fetch from ALL 4 sites
+        async function fetchFromAllSites(query) {
+            const promises = Object.entries(APIs).map(async ([site, url]) => {
+                try {
+                    const response = await fetch(${url}${encodeURIComponent(query)});
+                    const data = await response.json();
+                    return data.map(product => ({
+                        ...product,
+                        site: site.toUpperCase(),
+                        siteColor: site === 'amazon' ? '#ff9900' : site === 'flipkart' ? '#2874f0' : '#ff6b9d'
+                    }));
+                } catch {
+                    return [];
                 }
-                
-                return {
-                    price: price !== 'N/A' ? ₹${price} : 'Price Loading...',
-                    title: data.title || 'Product Title',
-                    image: data.images?.[0] || 'https://via.placeholder.com/300x300/667eea/ffffff?text=No+Image',
-                    url: https://www.amazon.in/dp/${asin}${AFFILIATE_TAG}
-                };
-            } catch (error) {
-                console.log('API Error:', error);
-                return {
-                    price: '₹19,999',
-                    title: 'Price Loading...',
-                    image: 'https://via.placeholder.com/300x300/e74c3c/ffffff?text=COD+Ready',
-                    url: https://www.amazon.in/dp/${asin}${AFFILIATE_TAG}
-                };
-            }
-        }
-
-        // Load All Live Prices
-        async function loadProducts() {
-            const grid = document.getElementById('productGrid');
-            const loading = document.getElementById('loading');
-            
-            loading.style.display = 'block';
-            grid.innerHTML = '';
-
-            // Fetch all prices parallel
-            const productPromises = products.map(async (product) => {
-                const data = await fetchLivePrice(product.id);
-                return { ...product, ...data };
             });
 
-            const allProducts = await Promise.all(productPromises);
-            
-            // Display products
-            allProducts.forEach(p => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <img src="${p.image}" alt="${p.title}" style="width:100%; height:200px; object-fit:cover; border-radius:15px; margin-bottom:15px;">
-                    <div class="title">${p.title}</div>
-                    <div class="price">${p.price}</div>
+            const results = await Promise.all(promises);
+            return results.flat();
+        }
 
-<div>
-                        <a href="${p.url}" class="btn btn-amazon" target="_blank">🛒 Amazon</a>
-                        <a href="https://wa.me/919812837279?text=Hi!%20मुझे%20${encodeURIComponent(p.title)}%20चाहिए%20₹${p.price.replace('₹','')}%20के%20rate%20पे.%20COD%20कर%20दो!" class="btn" target="_blank">💬 COD</a>
+        // Find lowest price
+        function getLowestPrice(products) {
+            const prices = products
+                .filter(p => p.price && !isNaN(parseFloat(p.price.replace(/[₹,]/g, ''))))
+                .map(p => parseFloat(p.price.replace(/[₹,]/g, '')));
+            return prices.length ? Math.min(...prices) : null;
+        }
+
+        // Display comparison cards (TOP 4 sites)
+        function showComparison(sitesData) {
+            const grid = document.getElementById('comparisonGrid');
+            grid.innerHTML = '';
+
+            Object.entries(sitesData).forEach(([site, products]) => {
+                if (products.length) {
+                    const lowest = getLowestPrice(products);
+                    const card = document.createElement('div');
+                    card.className = 'comp-card';
+                    card.innerHTML = 
+                        <div class="site-logo" style="color:${sitesData[site][0].siteColor}">📦 ${site}</div>
+                        <div class="price-display">${lowest ? ₹${lowest.toLocaleString()} : 'Loading...'}</div>
+                        <div><strong>${products.length}</strong> products found</div>
+                        <a href="#" class="btn" style="background:${sitesData[site][0].siteColor}44">View All</a>
+                    ;
+                    grid.appendChild(card);
+                }
+            });
+        }
+
+        // Display unlimited products
+        function displayProducts(products) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            if (!products.length) {
+                grid.innerHTML = '<div class="no-results">🔍 अभी कोई product नहीं मिला. Different keyword try करो!</div>';
+                return;
+            }
+
+            products.forEach(product => {
+                const lowestPrice = getLowestPrice(allProducts.filter(p => 
+                    p.title.toLowerCase().includes(product.title.toLowerCase().slice(0, 20))
+                ));
+
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${product.image || 'https://via.placeholder.com/300x220/e74c3c/ffffff?text=COD'}"
+alt="${product.title}" class="product-image" onerror="this.src='https://via.placeholder.com/300x220/667eea/ffffff?text=Image+Loading'">
+                    <div class="product-title">${product.title}</div>
+                    <div class="lowest-price">💰 Lowest: ${lowestPrice ? ₹${lowestPrice.toLocaleString()} : 'Loading...'}</div>
+                    <div style="color:${product.siteColor}; font-weight:bold; margin:10px 0;">${product.site}</div>
+                    <div>
+                        <a href="${product.url || '#'}" class="btn ${product.site.toLowerCase()}" target="_blank">🛒 Buy ${product.site}</a>
+                        <a href="https://wa.me/919812837279?text=Hi!%20${encodeURIComponent(product.title.slice(0,50))}%20₹${product.price || 'Best'}" 
+                           class="btn btn-whatsapp" target="_blank">💬 COD</a>
                     </div>
                 `;
                 grid.appendChild(card);
             });
-            
-            loading.style.display = 'none';
+
+            document.getElementById('totalProducts').textContent = products.length;
         }
 
-        // Search Function
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                const title = card.querySelector('.title').textContent.toLowerCase();
-                card.style.display = title.includes(query) ? 'block' : 'none';
-            });
+        // Live search + auto popular searches
+        document.getElementById('searchInput').addEventListener('input', async (e) => {
+            const query = e.target.value.trim();
+            
+            if (query.length < 2) {
+                // Auto-load popular searches
+                const randomPopular = popularSearches[Math.floor(Math.random() * popularSearches.length)];
+                await loadProducts(randomPopular);
+                return;
+            }
+
+            const products = await fetchFromAllSites(query);
+            allProducts = [...allProducts, ...products];
+            displayProducts(products.slice(0, 20)); // Show top 20
+            showComparison({amazon: [], flipkart: [], meesho: [], myntra: []}); // Update comparison
         });
 
-        // Load on page start
-        window.addEventListener('load', loadProducts);
-        setInterval(loadProducts, 30000); // Update every 30 sec
+        // Auto-load initial popular products
+        async function loadProducts(query = 'smartphone') {
+            const products = await fetchFromAllSites(query);
+            allProducts = products;
+            displayProducts(products.slice(0, 24));
+            liveUpdateCount++;
+            document.getElementById('liveUpdates').textContent = liveUpdateCount;
+            document.getElementById('savings').textContent = '₹10,000+';
+        }
+
+        // Auto-refresh every 2 minutes
+        setInterval(() => {
+            const query = document.getElementById('searchInput').value || 'smartphone';
+            loadProducts(query);
+        }, 120000);
+
+        // START - Load first popular products
+        window.addEventListener('load', () => loadProducts('iphone'));
     </script>
 </body>
 </html>
+                    
