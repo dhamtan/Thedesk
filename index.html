@@ -3,6 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheDesk | Master 3D Build</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { background-color: #050505; color: #ffffff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .gold-gradient { background: linear-gradient(135deg, #d4af37 0%, #f97316 100%); }
+        .gold-text { color: #d4af37; }
+        .card-shadow { background: #111; border: 1px solid rgba(212, 175, 55, 0.1); transition: 0.3s; border-radius: 20px; }
+        
+        /* REAL FILL 3D ASSETS STYLE */
+        .real-asset { 
+            width: 130px; height: 130px; 
+            object-fit: contain; 
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9)); 
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0; /* Initially hidden to avoid empty flash */
+        }
+        #blinkingItem { text-shadow: 0 0 35px rgba(212, 175, 55, 0.9); font-weight: 900; }
+        .btn-3d { background: linear-gradient(180deg, #facc15 0%, #eab308 100%); box-shadow: 0 4px 0 #a16207; }
+    </style>
+</head>
+<body>
+
+    <header class="p-4 border-b border-gray-900 sticky top-0 z-50 bg-black/95 backdrop-blur-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 gold-gradient rounded-xl flex items-center justify-center shadow-lg"><i class="fas fa-desktop text-white"></i></div>
+                <h1 class="text-xl font-bold gold-text uppercase">TheDesk</h1>
+            </div>
+            <div class="text-[9px] bg-green-500/10 text-green-400 px-3 py-1 rounded-full border border-green-500/20 font-bold uppercase tracking-widest italic">Sync Active</div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-10">
+        <div class="max-w-4xl mx-auto mb-16 py-12 px-6 bg-orange-500/5 border border-orange-500/10 rounded-[40px] text-center">
+            <h2 class="text-xl font-bold mb-2 uppercase italic">Syncing Deals for <span id="currentSearchLabel" class="gold-text">"Premium Study Gear"</span></h2>
+            <a id="masterAffiliateBtn" href="https://www.amazon.in/s?k=Study+Accessories&tag=thedesk-21" target="_blank" class="btn-3d px-12 py-4 rounded-2xl text-black font-black text-xs uppercase inline-block mt-4">
+                Open All Verified Results <i class="fas fa-external-link-alt ml-2"></i>
+            </a>
+        </div>
+
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-20"></div>
+
+        <div class="py-32 bg-black/40 text-center rounded-[60px] relative">
+            <h4 class="text-[10px] text-orange-500 font-bold tracking-[15px] uppercase mb-20 opacity-30 italic">Discovery Engine</h4>
+            
+            <div class="relative max-w-3xl mx-auto flex flex-col items-center justify-center">
+                <img id="imgTop" class="real-asset mb-8">
+                
+                <div class="flex items-center gap-4 md:gap-24">
+                    <img id="imgLeft" class="real-asset">
+                    
+                    <div class="h-32 flex items-center justify-center min-w-[250px]">
+                        <span id="blinkingItem" class="text-5xl md:text-8xl gold-gradient bg-clip-text text-transparent uppercase italic">STUDY GEAR</span>
+                    </div>
+
+                    <img id="imgRight" class="real-asset">
+                </div>
+
+                <img id="imgBottom" class="real-asset mt-8">
+            </div>
+            <p class="text-[9px] text-gray-700 mt-24 tracking-[10px] uppercase font-bold italic">Refreshing Premium Assets Every Second</p>
+        </div>
+    </main>
+
+    <script>
+        const RAPID_API_KEY = '28aa82e52fmsh464c33cf7943371p1d0d4fjsn5d28d22889c';
+        const AMAZON_TAG = 'thedesk-21';
+
+        // REAL 3D ASSETS (Tested Links)
+        const assets = [
+            { name: "3D LAPTOP", img: "https://m.media-amazon.com/images/I/71u9YmXnEAL._AC_SL1500_.jpg" },
+            { name: "STUDY LAMP", img: "https://m.media-amazon.com/images/I/61m17l7T7uL._AC_SL1500_.jpg" },
+            { name: "DESK TABLE", img: "https://m.media-amazon.com/images/I/71p0WfB6uLL._AC_SL1500_.jpg" },
+            { name: "WHITE BOARD", img: "https://m.media-amazon.com/images/I/61NfC7Yn7FL._AC_SL1500_.jpg" },
+            { name: "3D CHAIR", img: "https://m.media-amazon.com/images/I/71-xK6yXGOL._AC_SL1500_.jpg" }
+        ];
+
+        let curIdx = 0;
+        function updateRealDiscovery() {
+            const txt = document.getElementById('blinkingItem');
+            const pht = [document.getElementById('imgTop'), document.getElementById('imgBottom'), document.getElementById('imgLeft'), document.getElementById('imgRight')];
+            
+            [txt, ...pht].forEach(e => { e.style.opacity = '0'; e.style.transform = 'scale(0.85)'; });
+
+            setTimeout(() => {
+                curIdx = (curIdx + 1) % assets.length;
+                txt.innerText = assets[curIdx].name;
+                pht.forEach((p, i) => { 
+                    p.src = assets[(curIdx + i) % assets.length].img; 
+                    p.onload = () => { p.style.opacity = '1'; p.style.transform = 'scale(1)'; }; // Only show when loaded
+                });
+                txt.style.opacity = '1';
+                txt.style.transform = 'scale(1)';
+            }, 300);
+        }
+        setInterval(updateRealDiscovery, 1000);
+
+        async function handleSearch() {
+            const q = "Premium Study Accessories";
+            const res = await fetch(`https://instant-amazon-data.p.rapidapi.com/amazon-search?query=${encodeURIComponent(q)}&page=1&country=IN`, {
+                headers: { 'x-rapidapi-key': RAPID_API_KEY, 'x-rapidapi-host': 'instant-amazon-data.p.rapidapi.com' }
+            });
+            const d = await res.json();
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            d.data.products.slice(0, 12).forEach(p => {
+                const link = `${p.product_url}${p.product_url.includes('?') ? '&' : '?'}tag=${AMAZON_TAG}`;
+                grid.innerHTML += `<div class="card-shadow p-5 flex flex-col justify-between"><div><div class="h-40 bg-white rounded-xl mb-4 p-4 flex items-center justify-center"><img src="${p.product_photo}" class="max-h-full object-contain"></div><h3 class="text-xs font-semibold mb-2 text-gray-300 line-clamp-2">${p.product_title}</h3><p class="gold-text font-black">${p.product_price || 'Deal'}</p></div><a href="${link}" target="_blank" class="gold-gradient text-white text-center py-2.5 rounded-xl font-bold text-[10px] uppercase mt-4">View Deal</a></div>`;
+            });
+        }
+        window.onload = handleSearch;
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TheDesk | Premium Study Accessories</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
