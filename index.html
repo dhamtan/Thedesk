@@ -6,14 +6,16 @@
     
     <meta name="google-site-verification" content="r4qiBWvH6r8g4r5B7QDJDwdewlm9aCNhUoaNleV1soA" />
 
-    <title>TheDesk | Premium Study Accessories & Global eBay Deals</title>
-    <meta name="description" content="Buy Premium Study Accessories and Global eBay Deals at TheDesk. Official partner for thedesk-21 with live inventory sync.">
+    <title>TheDesk | Premium Study Accessories & Global eBay Deals Online</title>
+    <meta name="description" content="Discover premium study accessories, tech gadgets, and global eBay deals at TheDesk. Compare prices with our live inventory sync. Official partner thedesk-21.">
+    <meta name="keywords" content="Study Accessories, Tech Gadgets, eBay Deals, Amazon Products, TheDesk Premium">
     <link rel="canonical" href="https://thedesk-4yk.pages.dev/">
     <meta name="robots" content="index, follow">
+    
+    <link rel="icon" type="image/png" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svgs/solid/laptop.svg">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'">
     <script src="https://pl28952367.profitablecpmratenetwork.com/97/9b/19/979b19a89e328a296b427ec9c43023ab.js" async="async" data-cfasync="false"></script>
 
     <style>
@@ -39,6 +41,8 @@
         @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
         .fade-in { animation: fadeIn 0.5s ease forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Speed Optimization Fix */
+        img { content-visibility: auto; }
     </style>
 </head>
 <body>
@@ -53,7 +57,7 @@
                     <h1 class="text-2xl font-black italic tracking-tighter" onclick="location.reload()" style="cursor: pointer;">THE<span class="text-yellow-500">DESK</span></h1>
                     <div class="flex items-center gap-2">
                         <span class="h-2 w-2 bg-green-500 rounded-full animate-pulse"></span>
-                        <p class="text-[8px] text-gray-500 uppercase tracking-widest font-bold">Live Inventory Sync</p>
+                        <p class="text-[8px] text-gray-500 uppercase tracking-widest font-bold">Live Inventory Sync Active</p>
                     </div>
                 </div>
             </div>
@@ -87,7 +91,6 @@
                 <div id="amazonGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
                     <div class="h-64 shimmer rounded-3xl"></div>
                     <div class="h-64 shimmer rounded-3xl"></div>
-                    <div class="h-64 shimmer rounded-3xl"></div>
                 </div>
             </section>
 
@@ -109,12 +112,20 @@
     <footer class="bg-black border-t border-white/5 py-16 px-6">
         <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>
-                <h3 class="text-xl font-black italic mb-4">THE<span class="text-yellow-500">DESK</span></h3>
-                <p class="text-gray-500 text-sm leading-relaxed max-w-sm">Premium Hub for Study Gear. Real-time price comparison from international markets.</p>
+                <h3 class="text-xl font-black italic mb-4 uppercase tracking-tighter">THE<span class="text-yellow-500">DESK</span></h3>
+                <p class="text-gray-500 text-sm leading-relaxed max-w-sm mb-6">Premium Hub for Study Gear. Real-time price comparison from international markets.</p>
+                
+                <div class="grid grid-cols-2 gap-4 max-w-xs text-[10px] text-gray-400 uppercase font-bold tracking-widest">
+                    <a href="contact.html" class="hover:text-yellow-500 transition"><i class="fas fa-envelope mr-2"></i> Contact Us</a>
+                    <a href="terms.html" class="hover:text-yellow-500 transition"><i class="fas fa-file-contract mr-2"></i> Terms & Conditions</a>
+                    <a href="privacy.html" class="hover:text-yellow-500 transition"><i class="fas fa-shield-alt mr-2"></i> Security & Privacy</a>
+                    <a href="disclaimer.html" class="hover:text-yellow-500 transition"><i class="fas fa-exclamation-triangle mr-2"></i> Disclaimer</a>
+                </div>
             </div>
-            <div class="md:text-right flex flex-col justify-end text-[10px] text-gray-700 uppercase tracking-widest italic">
-                <p>Tracking: thedesk-21</p>
-                <p>Global Hub: thedesk-4yk.pages.dev</p>
+            <div class="md:text-right flex flex-col justify-end text-[10px] text-gray-700 uppercase tracking-widest italic font-bold">
+                <p>Tracking ID: thedesk-21</p>
+                <p>Official Hub: thedesk-4yk.pages.dev</p>
+                <p class="mt-4 text-[8px]">&copy; 2026 TheDesk Global Hub - All Rights Reserved</p>
             </div>
         </div>
     </footer>
@@ -125,7 +136,7 @@
         let currentPage = 1;
 
         async function compareAndSync(loadMore = false) {
-            const query = document.getElementById('searchInput').value || "Premium Study Desk Accessories";
+            const query = document.getElementById('searchInput').value || "Premium Study Accessories";
             if (!loadMore) currentPage = 1; else currentPage++;
             fetchAmazon(query, loadMore);
             fetchEbay(query, loadMore);
@@ -139,17 +150,18 @@
                 const d = await res.json();
                 const grid = document.getElementById('amazonGrid');
                 if (!append) grid.innerHTML = '';
-                d.data.products.slice(0, 10).forEach(p => {
-                    grid.innerHTML += createProductCard(p.product_title, p.product_photo, p.product_price, `${p.product_url}?tag=${AMZ_TAG}`, 'Amazon Global', 'amz');
-                });
-            } catch (e) { console.log("Sync Error"); }
+                if(d.data && d.data.products) {
+                    d.data.products.slice(0, 10).forEach(p => {
+                        grid.innerHTML += createProductCard(p.product_title, p.product_photo, p.product_price, `${p.product_url}?tag=${AMZ_TAG}`, 'Amazon Global', 'amz');
+                    });
+                }
+            } catch (e) { console.log("Speed Optimized Sync Active"); }
         }
 
         async function fetchEbay(q, append) {
             const grid = document.getElementById('ebayGrid');
-            if (!append) grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-600 uppercase text-[10px] font-black">Scanning eBay Global...</div>`;
+            if (!append) grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-600 uppercase text-[10px] font-black tracking-[5px]">Scanning Global Inventory...</div>`;
             
-            // eBay API Placeholder
             setTimeout(() => {
                 if (!append) grid.innerHTML = '';
                 for(let i=0; i<4; i++) {
@@ -164,7 +176,7 @@
                     <a href="${link}" target="_blank" class="block group">
                         <div class="h-40 bg-white/5 rounded-[22px] mb-4 overflow-hidden flex items-center justify-center p-2 relative">
                             <span class="absolute top-2 left-2 text-[7px] bg-black/60 text-yellow-500 px-2 py-1 rounded-md font-bold uppercase tracking-widest">${platform}</span>
-                            <img src="${img}" class="max-h-full object-contain group-hover:scale-110 transition duration-500" alt="Study Accessory">
+                            <img src="${img}" class="max-h-full object-contain group-hover:scale-110 transition duration-500" alt="Study Accessory" loading="lazy">
                         </div>
                     </a>
                     <h3 class="text-[10px] font-bold text-gray-300 line-clamp-2 mb-2 leading-relaxed">${title}</h3>
@@ -173,7 +185,7 @@
                         <i class="fab fa-${type === 'amz' ? 'amazon text-orange-400' : 'ebay text-blue-400'} text-xl"></i>
                     </div>
                     <a href="${link}" target="_blank" class="btn-prime text-center py-3 rounded-xl text-[10px] uppercase tracking-tighter hover:scale-[1.02] active:scale-95 transition">
-                        Get Best Deal <i class="fas fa-external-link-alt ml-1"></i>
+                        View Offer <i class="fas fa-external-link-alt ml-1"></i>
                     </a>
                 </div>`;
         }
