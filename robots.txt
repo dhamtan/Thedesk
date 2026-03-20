@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /private/
+
+# Sitemap Link for Search Engines
+Sitemap: https://thedesk-4yk.pages.dev/sitemap.xml
